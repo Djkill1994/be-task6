@@ -12,7 +12,8 @@ router.get('/', check("username").exists(), async (req, res) => {
             sender: message.sender,
             receiver: message.receiver,
             title: message.title,
-            body: message.body
+            body: message.body,
+            date: message.date,
         })));
     } catch (e) {
         res.status(400).json({message: 'Some magic happened, please try again to perform the actions you have done, thank you.'});
@@ -22,7 +23,13 @@ router.get('/', check("username").exists(), async (req, res) => {
 router.post('/send', [check(["sender", "receiver", "body", "title"]).exists()], async (req, res) => {
     try {
         const {sender, receiver, title, body} = req.body;
-        const newMessage = new messageModel({sender, receiver, title, body});
+        const newMessage = new messageModel({
+            sender,
+            receiver,
+            title,
+            body,
+            date: new Date().toLocaleString("en-US", {timeZone: "Europe/Minsk"})
+        });
         await newMessage.save();
         return res.status(200).json();
 

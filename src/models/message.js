@@ -4,7 +4,8 @@ const schema = new Schema({
     sender: {type: String, required: true},
     receiver: {type: String, required: true},
     title: {type: String, required: true},
-    body: {type: String, required: true}
+    body: {type: String, required: true},
+    date: {type: Date, required: true}
 })
 
 module.exports = model('Message', schema)
