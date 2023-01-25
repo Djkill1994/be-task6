@@ -7,7 +7,8 @@ router.get('/', check("username").exists(), async (req, res) => {
     try {
         const {username} = req.query;
         const messages = await messageModel.find();
-        res.status(200).json(messages?.filter((message) => message.sender === username)?.map((message) => ({
+        const reversedMassages = await messages.reverse()
+        res.status(200).json(reversedMassages?.filter((message) => message.receiver === username)?.map((message) => ({
             id: message._id,
             sender: message.sender,
             receiver: message.receiver,
